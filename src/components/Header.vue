@@ -9,7 +9,9 @@ import Nav from "@/components/Nav.vue";
 </template>
 
 <style scoped>
-.header{
+.header {
   width: 100%;
+  background-color: #f8f9fa;
+  padding: 10px;
 }
 </style>
