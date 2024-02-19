@@ -1,13 +1,6 @@
 <template>
   <div class="catalog-page">
     <h1>Каталог товаров</h1>
-    <div v-if="!isLoggedIn">
-      <router-link to="/login">Войти</router-link> /
-      <router-link to="/registration">Регистрация</router-link>
-    </div>
-    <div v-else>
-      <router-link to="/logout">Выход</router-link>
-    </div>
     <div class="product-cart">
       <div v-for="product in products" :key="product.id" class="product">
         <img :src="product.image" :alt="product.name" class="product-image">

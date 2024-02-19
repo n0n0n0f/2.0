@@ -5,9 +5,14 @@
       <item @click="$router.push('/order')">Оформленные товары</item>
       <item @click="$router.push('/basket')">Корзина ({{ $store.state.cartItems.length }})</item>
     </nav>
-    <nav class="nav-list">
-      <item @click="$router.push('/authorization')">Вход</item>
-    </nav>
+    <div v-if="isLoggedIn">
+      {{ currentUser.email }}
+      <button @click="logout">Выход</button>
+    </div>
+    <div v-else>
+      <router-link to="/login">Вход</router-link>
+      <router-link to="/registration">Регистрация</router-link>
+    </div>
   </div>
 </template>
 
@@ -34,3 +39,4 @@ const store = useStore();
   padding: 10px 20px;
 }
 </style>
+

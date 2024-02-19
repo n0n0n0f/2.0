@@ -15,3 +15,23 @@ import Nav from "@/components/Nav.vue";
   padding: 10px;
 }
 </style>
+
+<script>
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+
+export default {
+  setup() {
+    const store = useStore();
+    const isLoggedIn = computed(() => !!store.state.currentUser);
+    const currentUser = computed(() => store.state.currentUser);
+
+    const logout = () => {
+      store.dispatch('logoutUser');
+    };
+
+    return { isLoggedIn, currentUser, logout };
+  }
+};
+</script>
+
