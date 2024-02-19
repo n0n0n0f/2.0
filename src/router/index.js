@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import CatalogPage from "@/pages/CatalogPage.vue";
-import OrderPage from "@/pages/OrderPage.vue";
-import BasketPage from "@/pages/BasketPage.vue";
-import LoginPage from "@/pages/LoginPage.vue";
-import RegistrationPage from "@/pages/RegistrationPage.vue";
+import CatalogPage from "@/views/CatalogPage.vue";
+import OrderPage from "@/views/OrderPage.vue";
+import BasketPage from "@/views/BasketPage.vue";
+import LoginPage from "@/views/LoginPage.vue";
+import RegistrationPage from "@/views/RegistrationPage.vue";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(process.env.BASE_URL),
   routes: [
     {
       path: '/',
