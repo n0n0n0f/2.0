@@ -1,5 +1,4 @@
 <script setup>
-
 </script>
 
 <template>
@@ -9,10 +8,13 @@
 </template>
 
 <style scoped>
-.item{
+.item {
   color: black;
-  background: #ECEEF6;
-  border-radius: 10px 10px 0 0;
-  padding: 18px 30px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.item:hover {
+  background-color: #f0f0f0;
 }
 </style>
