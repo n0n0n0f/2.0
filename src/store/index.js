@@ -71,21 +71,23 @@ const store = createStore({
     async decreaseQuantity({ commit }, itemId) {
       commit('decreaseQuantity', itemId);
     },
-    async loginUser({ commit }, user) {
-      try {
-        const authenticatedUser = await api.login(user); // Использовать сервис API для аутентификации
-        commit('setUser', authenticatedUser);
-      } catch (error) {
-        console.error('Ошибка входа:', error);
-        throw error;
-      }
-    },
     async registerUser({ commit }, user) {
       try {
         const registeredUser = await api.register(user); // Использовать сервис API для регистрации
-        commit('setUser', registeredUser);
+        commit('setUser', registeredUser); // Сохраняем данные зарегистрированного пользователя
+        return registeredUser; // Возвращаем данные зарегистрированного пользователя
       } catch (error) {
         console.error('Ошибка регистрации:', error);
+        throw error;
+      }
+    },
+    async loginUser({ commit }, user) {
+      try {
+        const authenticatedUser = await api.login(user); // Использовать сервис API для аутентификации
+        commit('setUser', authenticatedUser); // Устанавливаем пользователя в хранилище
+        return authenticatedUser; // Возвращаем аутентифицированного пользователя
+      } catch (error) {
+        console.error('Ошибка входа:', error);
         throw error;
       }
     },

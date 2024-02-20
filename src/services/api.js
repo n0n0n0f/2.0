@@ -1,7 +1,7 @@
 // api.js
 const api = {
     async login(user) {
-        const response = await fetch('{{host}}/login', {
+        const response = await fetch('/login', { // Обращаемся к URL без указания хоста
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -16,7 +16,7 @@ const api = {
         return responseData.data.user_token;
     },
     async register(user) {
-        const response = await fetch('{{host}}/signup', {
+        const response = await fetch('/signup', { // Обращаемся к URL без указания хоста
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
