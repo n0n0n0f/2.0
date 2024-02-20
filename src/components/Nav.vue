@@ -1,9 +1,9 @@
 <template>
   <div class="nav-block">
     <nav class="nav-list">
-      <item @click="$router.push('/')">Каталог</item>
-      <item v-if="isAuthenticated" @click="$router.push('/order')">Оформленные товары</item>
-      <item @click="$router.push('/basket')">Корзина ({{ totalItemsInCart }})</item>
+      <router-link to="/">Каталог</router-link>
+      <router-link v-if="isAuthenticated" to="/orders">Оформленные товары</router-link>
+      <router-link to="/basket">Корзина ({{ totalItemsInCart }})</router-link>
     </nav>
     <div>
       <div v-if="isAuthenticated">
@@ -33,6 +33,7 @@ import { useStore } from 'vuex';
 const store = useStore();
 
 const totalItemsInCart = computed(() => {
+  if (!store.state.cartItems) return 0; // Проверяем существование cartItems
   return store.state.cartItems.reduce((total, item) => total + item.quantity, 0);
 });
 

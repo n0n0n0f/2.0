@@ -1,17 +1,22 @@
 <template>
-  <div class="cart">
-    <div v-for="item in cartItems" :key="item.id">
-      <img :src="item.image" :alt="item.name" width="100">
-      <p>{{ item.name }}</p>
-      <p>Цена: {{ item.price }}</p>
-      <p>Количество: {{ item.quantity }}</p>
-      <button @click="increaseQuantity(item.id)">+</button>
-      <button @click="decreaseQuantity(item.id)">-</button>
-      <button @click="removeFromCart(item.id)">Удалить</button>
+  <div class="basket-page">
+    <div v-if="cartItems.length === 0">
+      <p>Ваша корзина пуста.</p>
     </div>
-    <p>Общая стоимость: {{ total }}</p>
-    <button @click="checkout">Оформить заказ</button>
-    <router-link to="/">Назад</router-link>
+    <div v-else>
+      <div v-for="item in cartItems" :key="item.id">
+        <img class="product_image" :src="item.image" :alt="item.name">
+        <p>{{ item.name }}</p>
+        <p>Цена: {{ item.price }}</p>
+        <p>Количество: {{ item.quantity }}</p>
+        <button @click="increaseQuantity(item.id)">+</button>
+        <button @click="decreaseQuantity(item.id)">-</button>
+        <button @click="removeFromCart(item.id)">Удалить</button>
+      </div>
+      <p>Общая стоимость: {{ total }}</p>
+      <button @click="checkout">Оформить заказ</button>
+      <router-link to="/">Назад</router-link>
+    </div>
   </div>
 </template>
 
@@ -23,7 +28,7 @@ import { useRouter } from 'vue-router';
 const store = useStore();
 const router = useRouter();
 
-const cartItems = computed(() => store.state.cartItems);
+const cartItems = computed(() => store.state.cartItems || []); // Добавляем проверку на существование cartItems
 const total = computed(() => {
   return cartItems.value.reduce((acc, item) => acc + item.price * item.quantity, 0);
 });
@@ -41,11 +46,18 @@ const removeFromCart = (itemId) => {
 };
 
 const checkout = () => {
-  // Здесь можно добавить логику оформления заказа
-  router.push('/orders');
+  store.dispatch('placeOrder').then(() => {
+    router.push('/orders'); // Переход на страницу оформленных заказов после успешного оформления заказа
+  }).catch(error => {
+    console.error('Ошибка при оформлении заказа:', error);
+    // Обработка ошибки при оформлении заказа
+  });
 };
 </script>
 
 <style scoped>
-/* Стили для корзины */
+.product_image{
+  width: 200px;
+  height: 200px;
+}
 </style>
