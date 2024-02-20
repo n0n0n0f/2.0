@@ -28,7 +28,7 @@ const password = ref('');
 
 const login = async () => {
   try {
-    const user = { email: email.value, password: password.value };
+    const user = {email: email.value, password: password.value};
     await store.dispatch('loginUser', user);
     // Перенаправляем пользователя на главную страницу после успешного входа
     router.push('/');
@@ -36,4 +36,6 @@ const login = async () => {
     console.error('Ошибка входа:', error.message);
   }
 };
+
+const isLoggedIn = () => !!store.state.currentUser;
 </script>

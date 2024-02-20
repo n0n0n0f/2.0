@@ -1,6 +1,7 @@
 <template>
   <div class="cart">
     <div v-for="item in cartItems" :key="item.id">
+      <img :src="item.image" :alt="item.name" width="100">
       <p>{{ item.name }}</p>
       <p>Цена: {{ item.price }}</p>
       <p>Количество: {{ item.quantity }}</p>
