@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isLoggedIn">
+  <div>
     <h2>Регистрация</h2>
     <form @submit.prevent="register">
       <div>
@@ -13,27 +13,22 @@
       <button type="submit">Зарегистрироваться</button>
     </form>
   </div>
-  <div v-else>
-    <p>Вы уже авторизованы.</p>
-  </div>
 </template>
 
 <script setup>
-import {useStore} from 'vuex';
-import {ref} from 'vue';
+import { useStore } from 'vuex';
+import { ref } from 'vue';
 import api from '@/services/api';
-import {useRouter} from 'vue-router';
+import { useRouter } from 'vue-router';
 
 const store = useStore();
 const router = useRouter();
 const email = ref('');
 const password = ref('');
 
-const isLoggedIn = () => !!store.state.currentUser;
-
 const register = async () => {
   try {
-    const user = {email: email.value, password: password.value};
+    const user = { email: email.value, password: password.value };
     await api.register(user); // Используем ваш API для регистрации
     // Перенаправляем пользователя на главную страницу после успешной регистрации
     router.push('/');
