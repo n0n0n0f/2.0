@@ -18,22 +18,20 @@
 
 <script setup>
 import { useStore } from 'vuex';
-import { ref, computed } from 'vue';
-import api from '@/services/api'; // Импорт вашего API
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const store = useStore();
+const router = useRouter();
 const email = ref('');
 const password = ref('');
-
-const isLoggedIn = computed(() => !!store.state.currentUser);
 
 const login = async () => {
   try {
     const user = { email: email.value, password: password.value };
-    const token = await api.login(user); // Используем ваш API для аутентификации
-    store.commit('setUser', token); // Сохраняем токен пользователя в хранилище Vuex
-    // Переход на другую страницу, например, на главную страницу
-    router.push({ name: 'catalog' });
+    await store.dispatch('loginUser', user);
+    // Перенаправляем пользователя на главную страницу после успешного входа
+    router.push('/');
   } catch (error) {
     console.error('Ошибка входа:', error.message);
   }
