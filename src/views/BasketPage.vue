@@ -67,7 +67,7 @@ const activateOrderPage = () => {
 }
 
 .order-card {
-  background-color: #f9f9f9;
+  background-color: #d3aa8b;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

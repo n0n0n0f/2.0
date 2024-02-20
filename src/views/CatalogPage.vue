@@ -85,8 +85,8 @@ const addToCart = (product) => {
 }
 
 .product-image {
-  max-width: 200px;
-  height: 180px;
+  max-width: 150px;
+  height: 150px;
   border: 1px solid rgb(147, 80, 21);
   border-radius: 12px;
 }
