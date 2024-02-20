@@ -9,9 +9,21 @@ const store = createStore({
       isAuthenticated: true, // Добавить флаг авторизации и установить по умолчанию как false
       orders: [],
       cartItems: [],
+      checkoutEnabled: false,
+      orderPageActive: false
     };
   },
   mutations: {
+    setOrderPageActive(state, isActive) {
+      state.orderPageActive = isActive;
+    },
+    registerUser(state, userData) {
+      state.isAuthenticated = true;
+      state.currentUser = userData;
+    },
+    updateCheckoutStatus(state, status) {
+      state.checkoutEnabled = status;
+    },
     addToCart(state, newItem) {
       const existingItemIndex = state.cartItems.findIndex(item => item.id === newItem.id);
       if (existingItemIndex !== -1) {
