@@ -3,7 +3,7 @@
     <nav class="nav-list">
       <item @click="$router.push('/')">Каталог</item>
       <item @click="$router.push('/order')">Оформленные товары</item>
-      <item @click="$router.push('/basket')">Корзина ({{ $store.state.cartItems.length }})</item>
+      <item @click="$router.push('/basket')">Корзина ({{ totalItemsInCart }})</item>
     </nav>
     <div v-if="isLoggedIn">
       {{ currentUser.email }}
@@ -18,9 +18,21 @@
 
 <script setup>
 import { useStore } from 'vuex';
+import { computed } from 'vue';
 import Item from "@/components/Item.vue";
 
 const store = useStore();
+
+const totalItemsInCart = computed(() => {
+  return store.state.cartItems.reduce((total, item) => total + item.quantity, 0);
+});
+
+const isLoggedIn = computed(() => !!store.state.currentUser);
+const currentUser = computed(() => store.state.currentUser);
+
+const logout = () => {
+  store.dispatch('logoutUser');
+};
 </script>
 
 <style scoped>
@@ -39,4 +51,3 @@ const store = useStore();
   padding: 10px 20px;
 }
 </style>
-
