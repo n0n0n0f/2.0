@@ -8,14 +8,6 @@ import Nav from "@/components/Nav.vue";
   </header>
 </template>
 
-<style scoped>
-.header {
-  width: 100%;
-  background-color: #f8f9fa;
-  padding: 10px;
-}
-</style>
-
 <script>
 import { useStore } from 'vuex';
 import { computed } from 'vue';
@@ -30,8 +22,17 @@ export default {
       store.dispatch('logoutUser');
     };
 
-    return { isLoggedIn, currentUser, logout };
+    return {isLoggedIn, currentUser, logout};
   }
 };
 </script>
 
+<style scoped>
+.header {
+  width: 1600px;
+  background-color: #FDF5E6;
+  margin: 0 auto 20px;
+  padding: 0 20px; /* Если нужен внутренний отступ */
+
+}
+</style>

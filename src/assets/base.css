@@ -18,6 +18,7 @@ body {
 
 a{
     text-decoration: none;
+    margin-right: 15px;
 }
 
 input, textarea{
@@ -27,4 +28,16 @@ input, textarea{
 
 button{
     outline: none;
+}
+
+.product-cart{
+    margin-top: 15px;
+}
+
+.nav-button{
+    margin-top: 10px;
+}
+
+.nav-button-text{
+    color: black;
 }

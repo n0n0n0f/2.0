@@ -1,19 +1,21 @@
 <template>
   <div class="catalog-page">
-    <h1>Каталог товаров</h1>
+    <h1 class="catalog-title">Каталог товаров</h1>
     <div class="product-cart">
       <div v-for="product in products" :key="product.id" class="product">
         <img :src="product.image" :alt="product.name" class="product-image">
         <h2 class="product-name">{{ product.name }}</h2>
         <p class="product-description">{{ product.description }}</p>
-        <!-- Добавьте условие, чтобы кнопка добавления в корзину была видима только при аутентификации -->
-        <button v-if="isAuthenticated" @click="addToCart(product)" class="product-price-btn">{{ product.price }}</button>
+        <div v-if="isAuthenticated">
+          <p class="product-price">Цена: {{ product.price }}</p>
+          <button @click="addToCart(product)" class="product-btn">В корзину</button>
+        </div>
         <div v-else>
           <p>Чтобы добавить товар в корзину, пожалуйста, авторизуйтесь</p>
         </div>
       </div>
     </div>
-    <router-link v-if="isLoggedIn && isClient" to="/order">Ранее оформленные заказы</router-link>
+    <router-link v-if="isLoggedIn && isClient" to="/order" class="back-link">Ранее оформленные заказы</router-link>
   </div>
 </template>
 
@@ -49,24 +51,44 @@ const products = ref([
   },
 ]);
 
+
 const addToCart = (product) => {
-  // Проверяем, аутентифицирован ли пользователь перед добавлением в корзину
   if (isAuthenticated.value) {
     store.commit('addToCart', product);
   } else {
     console.log('Пользователь не аутентифицирован. Невозможно добавить товар в корзину.');
-    // Здесь можно также показать всплывающее окно или другое уведомление о необходимости аутентификации
   }
 };
 </script>
 
 <style scoped>
+.catalog-page {
+  padding: 20px;
+}
+
+.catalog-title {
+  color: #301801;
+}
+
+.product-cart {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
 .product {
+  width: calc(33.33% - 20px);
   margin-bottom: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 .product-image {
-  max-width: 100%;
+  max-width: 200px;
+  height: 180px;
+  border: 1px solid rgb(147, 80, 21);
+  border-radius: 12px;
 }
 
 .product-name {
@@ -79,20 +101,32 @@ const addToCart = (product) => {
   color: #666;
 }
 
-.product-price-btn {
+.product-price {
   margin-top: 5px;
   font-weight: bold;
+}
+
+.product-btn {
+  margin-top: 10px;
   padding: 5px 10px;
+  background-color: #A0522D;
+  color: white;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.product-cart {
-  display: flex;
-  justify-content: space-evenly;
+.product-btn:hover {
+  background-color: #8B4513;
 }
 
-.product-image {
-  width: 200px;
-  height: 200px;
+.back-link {
+  color: #A0522D;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
 }
 </style>
