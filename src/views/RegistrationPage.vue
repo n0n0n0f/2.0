@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!isLoggedIn">
     <h2>Регистрация</h2>
     <form @submit.prevent="register">
       <div>
@@ -13,34 +13,31 @@
       <button type="submit">Зарегистрироваться</button>
     </form>
   </div>
+  <div v-else>
+    <p>Вы уже авторизованы.</p>
+  </div>
 </template>
 
-<script>
+<script setup>
 import { useStore } from 'vuex';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router'; // Импортируем useRouter из vue-router
+import { ref, computed } from 'vue';
+import api from '@/services/api'; // Импорт вашего API
 
-export default {
-  setup() {
-    const store = useStore();
-    const router = useRouter(); // Получаем объект router
+const store = useStore();
+const email = ref('');
+const password = ref('');
 
-    const email = ref('');
-    const password = ref('');
+const isLoggedIn = computed(() => !!store.state.currentUser);
 
-    const register = async () => {
-      try {
-        const user = { email: email.value, password: password.value };
-        await store.dispatch('registerUser', user); // Ожидаем завершения регистрации
-
-        // После успешной регистрации перенаправляем пользователя на страницу входа
-        router.push({ name: 'login' }); // Переход на страницу с именем 'login'
-      } catch (error) {
-        console.error('Ошибка регистрации:', error);
-      }
-    };
-
-    return { email, password, register };
+const register = async () => {
+  try {
+    const user = { email: email.value, password: password.value };
+    const token = await api.register(user); // Используем ваш API для регистрации
+    store.commit('setUser', token); // Сохраняем токен пользователя в хранилище Vuex
+    // Переход на другую страницу, например, на главную страницу
+    router.push({ name: 'catalog' });
+  } catch (error) {
+    console.error('Ошибка регистрации:', error.message);
   }
 };
 </script>

@@ -6,7 +6,11 @@
         <img :src="product.image" :alt="product.name" class="product-image">
         <h2 class="product-name">{{ product.name }}</h2>
         <p class="product-description">{{ product.description }}</p>
-        <button @click="addToCart(product)" class="product-price-btn">{{ product.price }}</button>
+        <!-- Добавьте условие, чтобы кнопка добавления в корзину была видима только при аутентификации -->
+        <button v-if="isAuthenticated" @click="addToCart(product)" class="product-price-btn">{{ product.price }}</button>
+        <div v-else>
+          <p>Чтобы добавить товар в корзину, пожалуйста, авторизуйтесь</p>
+        </div>
       </div>
     </div>
     <router-link v-if="isLoggedIn && isClient" to="/order">Ранее оформленные заказы</router-link>
@@ -19,7 +23,7 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 
-const isLoggedIn = computed(() => store.state.isLoggedIn);
+const isAuthenticated = computed(() => store.state.isAuthenticated);
 const isClient = computed(() => store.state.userRole === 'Client');
 const products = ref([
   {
@@ -46,7 +50,13 @@ const products = ref([
 ]);
 
 const addToCart = (product) => {
-  store.commit('addToCart', product);
+  // Проверяем, аутентифицирован ли пользователь перед добавлением в корзину
+  if (isAuthenticated.value) {
+    store.commit('addToCart', product);
+  } else {
+    console.log('Пользователь не аутентифицирован. Невозможно добавить товар в корзину.');
+    // Здесь можно также показать всплывающее окно или другое уведомление о необходимости аутентификации
+  }
 };
 </script>
 
