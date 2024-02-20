@@ -14,9 +14,10 @@ const store = createStore({
       const existingItemIndex = state.cartItems.findIndex(item => item.id === newItem.id);
       if (existingItemIndex !== -1) {
         // Если товар уже есть в корзине, увеличиваем его количество
-        state.cartItems[existingItemIndex].quantity += newItem.quantity;
+        state.cartItems[existingItemIndex].quantity++;
       } else {
         // Если товара нет в корзине, добавляем его
+        newItem.quantity = 1; // Устанавливаем количество товара в 1
         state.cartItems.push(newItem);
       }
       // Обновляем состояние с помощью Vue.set

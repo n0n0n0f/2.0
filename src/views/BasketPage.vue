@@ -4,9 +4,9 @@
       <p>{{ item.name }}</p>
       <p>Цена: {{ item.price }}</p>
       <p>Количество: {{ item.quantity }}</p>
-      <button @click="increaseQuantity(item)">+</button>
-      <button @click="decreaseQuantity(item)">-</button>
-      <button @click="removeFromCart(item)">Удалить</button>
+      <button @click="increaseQuantity(item.id)">+</button>
+      <button @click="decreaseQuantity(item.id)">-</button>
+      <button @click="removeFromCart(item.id)">Удалить</button>
     </div>
     <p>Общая стоимость: {{ total }}</p>
     <button @click="checkout">Оформить заказ</button>
@@ -27,16 +27,16 @@ const total = computed(() => {
   return cartItems.value.reduce((acc, item) => acc + item.price * item.quantity, 0);
 });
 
-const increaseQuantity = (item) => {
-  store.commit('increaseQuantity', item.id);
+const increaseQuantity = (itemId) => {
+  store.commit('increaseQuantity', itemId);
 };
 
-const decreaseQuantity = (item) => {
-  store.commit('decreaseQuantity', item.id);
+const decreaseQuantity = (itemId) => {
+  store.commit('decreaseQuantity', itemId);
 };
 
-const removeFromCart = (item) => {
-  store.commit('removeFromCart', item.id);
+const removeFromCart = (itemId) => {
+  store.commit('removeFromCart', itemId);
 };
 
 const checkout = () => {
