@@ -18,16 +18,26 @@
 <script>
 import { useStore } from 'vuex';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router'; // Импортируем useRouter из vue-router
 
 export default {
   setup() {
     const store = useStore();
+    const router = useRouter(); // Получаем объект router
+
     const email = ref('');
     const password = ref('');
 
-    const register = () => {
-      const user = { email: email.value, password: password.value };
-      store.dispatch('loginUser', user); // Пока что использовал loginUser, потом замените на registerUser
+    const register = async () => {
+      try {
+        const user = { email: email.value, password: password.value };
+        await store.dispatch('registerUser', user); // Ожидаем завершения регистрации
+
+        // После успешной регистрации перенаправляем пользователя на страницу входа
+        router.push({ name: 'login' }); // Переход на страницу с именем 'login'
+      } catch (error) {
+        console.error('Ошибка регистрации:', error);
+      }
     };
 
     return { email, password, register };
