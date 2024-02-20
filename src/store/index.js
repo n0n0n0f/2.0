@@ -5,9 +5,10 @@ import api from '@/services/api'; // Импортировать ваш серв�
 const store = createStore({
   state() {
     return {
-      currentUser: null, // Включить currentUser в начальное состояние
-      cartItems: [],
+      currentUser: null,
       isAuthenticated: true, // Добавить флаг авторизации и установить по умолчанию как false
+      orders: [],
+      cartItems: [],
     };
   },
   mutations: {
@@ -21,12 +22,19 @@ const store = createStore({
         newItem.quantity = 1; // Устанавливаем количество товара в 1
         state.cartItems.push(newItem);
       }
-      // Обновляем состояние с помощью Vue.set
-      state.cartItems = [...state.cartItems];
     },
     // Мутация для удаления товара из корзины
     removeFromCart(state, itemId) {
       state.cartItems = state.cartItems.filter(item => item.id !== itemId);
+    },
+    addOrder(state, order) {
+      // Добавляем поле cartItems в объект order перед добавлением в список заказов
+      order.cartItems = state.cartItems;
+      state.orders.push(order);
+    },
+    // Мутация для очистки корзины
+    clearCart(state) {
+      state.cartItems = [];
     },
     // Мутация для увеличения количества товара в корзине
     increaseQuantity(state, itemId) {
@@ -56,13 +64,6 @@ const store = createStore({
     }
   },
   actions: {
-    async addToCart({ commit }, newItem) {
-      commit('addToCart', newItem);
-    },
-    // Действие для удаления товара из корзины
-    async removeFromCart({ commit }, itemId) {
-      commit('removeFromCart', itemId);
-    },
     // Действие для увеличения количества товара в корзине
     async increaseQuantity({ commit }, itemId) {
       commit('increaseQuantity', itemId);
@@ -94,7 +95,22 @@ const store = createStore({
     logoutUser({ commit }) {
       commit('clearUser');
     },
+    async addToCart({ commit }, newItem) {
+      commit('addToCart', newItem);
+    },
+    async removeFromCart({ commit }, itemId) {
+      commit('removeFromCart', itemId);
+    },
+    async placeOrder({ commit, state }) {
+      try {
+        const order = await api.placeOrder(state.cartItems);
+        commit('addOrder', order);
+        commit('clearCart');
+      } catch (error) {
+        console.error('Ошибка размещения заказа:', error);
+        throw error;
+      }
+    }
   },
 });
-
 export default store;
