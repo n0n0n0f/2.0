@@ -7,6 +7,7 @@ const store = createStore({
     return {
       currentUser: null, // Включить currentUser в начальное состояние
       cartItems: [],
+      isAuthenticated: true, // Добавить флаг авторизации и установить по умолчанию как false
     };
   },
   mutations: {
@@ -45,13 +46,14 @@ const store = createStore({
         state.cartItems = [...state.cartItems];
       }
     },
-    setUser(state, user) {
-      state.currentUser = user;
+    setUser(state, token) {
+      state.isAuthenticated = true; // Устанавливаем флаг как true при успешной авторизации
+      state.currentUser = token;
     },
     clearUser(state) {
+      state.isAuthenticated = false; // Сбрасываем флаг при выходе пользователя
       state.currentUser = null;
-      state.cartItems = []; // Очистить cartItems при выходе
-    },
+    }
   },
   actions: {
     async addToCart({ commit }, newItem) {

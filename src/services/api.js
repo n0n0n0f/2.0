@@ -1,12 +1,34 @@
 // api.js
 const api = {
     async login(user) {
-        // Отправить запрос на сервер для аутентификации пользователя
-        // Вернуть ответ сервера
+        const response = await fetch('{{host}}/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        });
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error.message);
+        }
+        const responseData = await response.json();
+        return responseData.data.user_token;
     },
     async register(user) {
-        // Отправить запрос на сервер для регистрации пользователя
-        // Вернуть ответ сервера
+        const response = await fetch('{{host}}/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        });
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error.message);
+        }
+        const responseData = await response.json();
+        return responseData.data.user_token;
     }
 }
 
