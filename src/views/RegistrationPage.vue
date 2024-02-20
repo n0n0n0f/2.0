@@ -21,7 +21,7 @@
 <script setup>
 import { useStore } from 'vuex';
 import { ref, computed } from 'vue';
-import api from '@/services/api'; // Импорт вашего API
+import api from '@/services/api';
 
 const store = useStore();
 const email = ref('');
