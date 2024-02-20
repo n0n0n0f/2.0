@@ -2,7 +2,6 @@
   <div class="nav-block">
     <nav class="nav-list">
       <router-link to="/">Каталог</router-link>
-      <router-link v-if="isAuthenticated" to="/orders">Оформленные товары</router-link>
       <router-link to="/basket">Корзина ({{ totalItemsInCart }})</router-link>
     </nav>
     <div>

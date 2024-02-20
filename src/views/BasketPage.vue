@@ -14,7 +14,7 @@
         <button @click="removeFromCart(item.id)">Удалить</button>
       </div>
       <p>Общая стоимость: {{ total }}</p>
-      <button @click="checkout">Оформить заказ</button>
+      <button @click="activateOrderPage">Оформить заказ</button>
       <router-link to="/">Назад</router-link>
     </div>
   </div>
@@ -45,18 +45,16 @@ const removeFromCart = (itemId) => {
   store.commit('removeFromCart', itemId);
 };
 
-const checkout = () => {
-  store.dispatch('placeOrder').then(() => {
-    router.push('/orders'); // Переход на страницу оформленных заказов после успешного оформления заказа
-  }).catch(error => {
-    console.error('Ошибка при оформлении заказа:', error);
-    // Обработка ошибки при оформлении заказа
-  });
+const activateOrderPage = () => {
+  // Устанавливаем страницу оформления заказа как активную
+  store.commit('setOrderPageActive', true);
+  // Переход на страницу оформления заказа
+  router.push('/orders');
 };
 </script>
 
 <style scoped>
-.product_image{
+.product_image {
   width: 200px;
   height: 200px;
 }
